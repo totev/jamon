@@ -1,2 +1,2 @@
-# jampde
+# jamdep
 JAMStack deploying demos
