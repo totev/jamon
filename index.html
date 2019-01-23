@@ -4,10 +4,22 @@
     <title>JAMStack deployed site</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="style.css" rel="stylesheet" />
+    <link href="styles/style.css" rel="stylesheet" />
   </head>
 
   <body>
+    <script src="js/talkToApi.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('Your document is ready!');
+        getUserGeoLocation().then(function(result) {
+          if (result && result.description) {
+            const el = document.querySelector('.command-result.description');
+            el.innerText = result.description;
+          }
+        });
+      });
+    </script>
     <console class="apple-shadow">
       <header>
         <span class="window-command-block">
@@ -67,7 +79,7 @@
               ><span class="path-arrow-green">❯</span>
             </span>
             <span class="command">cat deployment.md</span>
-            <div class="command-result">
+            <div class="command-result description">
               Something somehting headline and la la... <br /><br />
 
               Because of many reasons a paragraph is needed here to better
@@ -92,6 +104,5 @@
         </span>
       </screen>
     </console>
-
   </body>
 </html>

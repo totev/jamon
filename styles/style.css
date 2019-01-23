@@ -124,6 +124,8 @@ console > screen {
 
 .command-block > .command-result {
     color: var(--console-color-text);
+    margin-bottom: 1em;
+    margin-top: 1em;
 }
 
 .git-add {
