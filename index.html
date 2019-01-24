@@ -165,25 +165,41 @@
 
   <body>
     <script>
-      function getUserGeoLocation(platform) {
+      const apiUrlBase = 'https://jamon-api.codecentric.rocks/dev/';
+
+      function getRemoteData(path) {
+        return fetch(apiUrlBase + path).then(function(response) {
+          return response.json();
+        });
+      }
+
+      function getDeployedPlatformDescription(platform) {
         // try to discover the platform based on the subdomain
         if (!platform) {
           platform = window.location.hostname.split('.', 1).join();
         }
 
-        return fetch(
-          'https://jamon-api.codecentric.rocks/dev/description?platform=' +
-            platform
-        ).then(function(response) {
-          return response.json();
-        });
+        return getRemoteData('description?platform=' + platform);
+      }
+
+      function getUserGeoLocation() {
+        return getRemoteData('ip');
       }
 
       document.addEventListener('DOMContentLoaded', function() {
-        getUserGeoLocation().then(function(result) {
+        getDeployedPlatformDescription().then(function(result) {
           if (result && result.description) {
             const el = document.querySelector('.command-result.description');
             el.innerText = result.description;
+          }
+        });
+
+        getUserGeoLocation().then(function(result) {
+          if (result && result.userCountry) {
+            const el = document.querySelector(
+              '.command-result > .geo-location'
+            );
+            el.innerText = result.userCountry.emoji + result.userCountry.name;
           }
         });
       });
